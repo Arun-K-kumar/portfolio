@@ -26,7 +26,7 @@
   --serif:      'Playfair Display', Georgia, serif;
   --sans:       'Outfit', system-ui, sans-serif;
   --mono:       'JetBrains Mono', monospace;
-  --max:        1060px;
+  --max:        1440px; /*1060*/
   --pad:        clamp(1.5rem, 5vw, 3.5rem);
   --radius:     8px;
 }
@@ -468,12 +468,14 @@ h1 em{
 
 /* Image side */
 .proj-img-side{
-  overflow:hidden;
-  background:var(--bg-lift);
-  position:relative;
-  min-height:280px;
+ overflow: hidden;
+  background: var(--bg-lift);
+  position: relative;
+  /* Setting a 16:9 Aspect Ratio */
+  aspect-ratio: 16 / 9; 
+  width: 100%;
+  min-height: auto; /* Overriding previous fixed height */
 }
-
 /* ─────────────────────────────────────────────
    PROJECT IMAGES
    Replace each src with your GitHub raw URL:
@@ -486,8 +488,13 @@ h1 em{
   object-fit:cover; display:block;
   filter:grayscale(12%) brightness(0.9);
   transition:filter 0.5s, transform 0.5s cubic-bezier(.4,0,.2,1);
+  flex-shrink: 0;
 }
 
+.proj-item:hover .slides img {
+  filter: grayscale(0%) brightness(1);
+  transform: scale(1.03);
+}
 .proj-item:hover .proj-img-side img{
   filter:grayscale(0%) brightness(1);
   transform:scale(1.03);
@@ -661,6 +668,58 @@ h1 em{
 }
 
 .clink:hover .clink-arrow{ transform:translateX(5px); color:var(--rust); }
+
+/*image slider*/
+/* ── PROJECT IMAGE SLIDER ── */
+.slider {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+.slides {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  transition: transform 0.4s ease-in-out;
+}
+
+.slides img {
+ width: 100%;
+  height: 100%;
+  /* Ensures image fills the 16:9 box without distortion or gaps */
+  object-fit: cover; 
+  flex-shrink: 0;
+  filter: grayscale(12%) brightness(0.9);
+  /* Combined transition for filter and transform */
+  transition: filter 0.5s, transform 0.5s cubic-bezier(.4, 0, .2, 1);
+}
+
+/* Buttons */
+.prev, .next {
+ position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(0, 0, 0, 0.3);
+  backdrop-filter: blur(4px);
+  color: white;
+  border: none;
+  font-size: 18px;
+  padding: 10px 12px;
+  cursor: pointer;
+  z-index: 5;
+  border-radius: 4px;
+  transition: background 0.2s;
+}
+
+.prev { left: 10px; }
+.next { right: 10px; }
+
+.prev:hover, .next:hover {
+  background: rgba(0,0,0,0.7);
+}
+
 
 /* Right side — info, no box */
 .contact-info{ padding-top:0.5rem; }
@@ -1080,17 +1139,17 @@ footer{
            Format: https://raw.githubusercontent.com/USERNAME/REPO/main/images/FILE.jpg
       -->
       <div class="proj-item reveal">
-        <div class="proj-img-side">
-          <img
-            src="./projects/lostfound_0.png"
-            alt="Lost and Found - Website"
-            onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';"
-          />
-          <div class="proj-img-placeholder" style="display:none;">
-            <svg width="32" height="32" fill="none" stroke="currentColor" stroke-width="1.2" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="m3 9 4-4 4 4 5-5 5 5"/><circle cx="8.5" cy="13.5" r="1.5"/></svg>
-            <p>Add image URL from GitHub<br>in the src attribute</p>
-          </div>
-        </div>
+       <div class="proj-img-side">
+  <div class="slider">
+    <div class="slides">
+      <img src="./projects/lostfound_0.png" />
+      <img src="./projects/lostfound_1.png" />
+    </div>
+
+    <button class="prev">‹</button>
+    <button class="next">›</button>
+  </div>
+</div>
         <div class="proj-body">
           <div class="proj-num">001</div>
           <div class="proj-title">SRM Lost & Found > Website</div>
@@ -1120,6 +1179,50 @@ Demonstrates my ability to build functional web applications that solve real stu
           </a>
         </div>
       </div>
+<br>
+<!-- ----------------------------------------------------- -->
+
+      <div class="proj-item reveal">
+       <div class="proj-img-side">
+  <div class="slider">
+    <div class="slides">
+      <img src="./projects/math_solver.png" />
+      <img src="./projects/math_solver2.png" />
+    </div>
+
+    <button class="prev">‹</button>
+    <button class="next">›</button>
+  </div>
+</div>
+        <div class="proj-body">
+          <div class="proj-num">002</div>
+          <div class="proj-title">MathAgent - Instant Math Solver</div>
+          <div class="proj-desc">Built an instant AI-based math solver that allows users to upload PDFs and dynamically train a model to solve problems based on the provided procedures. The system enables real-time learning and application, capabilities in document parsing, model adaptation, and intelligent problem-solving.
+</div> 
+<div class="project-links">
+        <!-- <a href="https://github.com/Arun-K-kumar/found-it" target="_blank" class="btn-github">
+            View Code
+        </a> -->
+        <a href="https://pdf-mind-solver.lovable.app" target="_blank" class="btn-demo">
+            Live Demo
+        </a>
+    </div><br>
+
+          <div class="proj-stack">
+            
+            <span class="proj-tag">HTML</span>
+            <span class="proj-tag">CSS</span>
+            <span class="proj-tag">JavaScript</span>
+            <span class="proj-tag">React</span>
+          </div>
+          <!-- Replace href with your actual GitHub / demo link -->
+          <a class="proj-link" href="https://pdf-mind-solver.lovable.app" target="_blank">
+            View project <span class="arrow">→</span>
+          </a>
+        </div>
+      </div>
+
+      <!-- ------------------------------------------------------------------ -->
 
       <!-- ─ PROJECT 2 ─
       <div class="proj-item reveal">
@@ -1332,7 +1435,7 @@ Demonstrates my ability to build functional web applications that solve real stu
           who can own systems end-to-end — let's talk.
         </p>
         <div class="contact-links">
-          <a class="clink" href="arnkmrsll@gmail.com">
+          <a class="clink" href="mailto:arnkmrsll@gmail.com">
             <div class="clink-left">
               <span class="clink-type">Email</span>
               <!-- Replace with your real email -->
@@ -1417,6 +1520,30 @@ const obs = new IntersectionObserver(entries => {
 }, { threshold: 0.07 });
 
 document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+
+/*image slides*/
+document.querySelectorAll('.slider').forEach(slider => {
+  const slides = slider.querySelector('.slides');
+  const images = slider.querySelectorAll('img');
+  const prev = slider.querySelector('.prev');
+  const next = slider.querySelector('.next');
+
+  let index = 0;
+
+  function updateSlide() {
+    slides.style.transform = `translateX(-${index * 100}%)`;
+  }
+
+  next.addEventListener('click', () => {
+    index = (index + 1) % images.length;
+    updateSlide();
+  });
+
+  prev.addEventListener('click', () => {
+    index = (index - 1 + images.length) % images.length;
+    updateSlide();
+  });
+});
 
 /* ── Skill bars ── */
 const skillObs = new IntersectionObserver(entries => {
